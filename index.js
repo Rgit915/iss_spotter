@@ -51,3 +51,5 @@ fetchISSFlyOverTimes(coords, (error, flyOverTimes) => {
   }
   
 });
+
+module.exports ={printPassTimes}
