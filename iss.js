@@ -1,3 +1,4 @@
+// ISS Spotter I
 const request = require("request");
 
 /**
@@ -33,4 +34,32 @@ const fetchMyIP = function(callback) {
   });
 };
 
-module.exports = { fetchMyIP };
+
+//ISS Spotter II
+const fetchCoordsByIP = function(ip, callback) {
+  request(`http://ipwho.is/${ip}`,(error, response, body) => {
+    //handle errors and check the respose status code
+    if (error) {
+      callback(error, null);
+      return;
+    }
+
+    //parse the response body as JSON
+   
+    const parsedBody = JSON.parse(body);
+    if (!parsedBody.success) {
+      const message = `Success status was ${parsedBody.success}. Server message says: ${parsedBody.message} when fetching for IP ${parsedBody.ip}`;
+      callback(Error(message), null);
+      return;
+    }
+    const { latitude, longitude } = parsedBody;
+
+    callback(null, {latitude, longitude});
+     
+  });
+
+};
+
+
+
+module.exports = { fetchMyIP, fetchCoordsByIP };
